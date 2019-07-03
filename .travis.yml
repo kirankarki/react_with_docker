@@ -1,0 +1,9 @@
+sudo: required
+services: 
+  - docker
+
+before_install:
+  - docker build -t kirankarki/react_with_docker -f Dockerfile.dev .
+
+script:
+  - docker run kirankarki/react_with_docker npm run test -- --coverage
