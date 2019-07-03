@@ -6,4 +6,17 @@ before_install:
   - docker build -t kirankarki/react_with_docker -f Dockerfile.dev .
 
 script:
-  - docker run kirankarki/react_with_docker npm run test -- --coverage
+  - docker run -e CI=true kirankarki/react_with_docker npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-southeast-1"
+  app: "react_with_docker"
+  env: "ReactWithDocker-env"
+  bucket_name: "elasticbeanstalk-ap-southeast-1-568516007683"
+  bucket_path: "react_with_docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
